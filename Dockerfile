@@ -30,11 +30,12 @@ RUN sed -i '1i\http://mirrors.ustc.edu.cn/alpine/v3.5/main\nhttp://mirrors.ustc.
 && gem update --system \
 && gem install --no-document bundler
 COPY assets/build/ ${GITLAB_BUILD_DIR}/
-RUN bash ${GITLAB_BUILD_DIR}/install.sh
+RUN sh ${GITLAB_BUILD_DIR}/install.sh
 
 COPY assets/runtime/ ${GITLAB_RUNTIME_DIR}/
 COPY entrypoint.sh /sbin/entrypoint.sh
-RUN chmod 755 /sbin/entrypoint.sh
+RUN chmod 755 /sbin/entrypoint.sh \
+    apk del .build-deps
 
 EXPOSE 22/tcp 80/tcp 443/tcp
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 source ${GITLAB_RUNTIME_DIR}/env-defaults
 
