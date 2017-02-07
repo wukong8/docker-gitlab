@@ -24,7 +24,8 @@ exec_as_git() {
   if [[ $(whoami) == ${GITLAB_USER} ]]; then
     $@
   else
-    sudo -HEu ${GITLAB_USER} "$@"
+    sudo -u ${GITLAB_USER} -H "$@"
+    #sudo -HEu ${GITLAB_USER} "$@"
   fi
 }
 
@@ -102,6 +103,7 @@ exec_as_git sed -i "/headers\['Strict-Transport-Security'\]/d" ${GITLAB_INSTALL_
 # revert `rake gitlab:setup` changes from gitlabhq/gitlabhq@a54af831bae023770bf9b2633cc45ec0d5f5a66a
 exec_as_git sed -i 's/db:reset/db:setup/' ${GITLAB_INSTALL_DIR}/lib/tasks/gitlab/setup.rake
 
+echo "chdir to ${GITLAB_INSTALL_DIR}"
 cd ${GITLAB_INSTALL_DIR}
 
 # install gems, use local cache if available
