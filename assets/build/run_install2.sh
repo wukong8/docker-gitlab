@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e
+set -ex
 
 
 GITLAB_VERSION=8.16.3
