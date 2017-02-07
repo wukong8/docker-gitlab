@@ -34,7 +34,6 @@ apk add --update wget curl gcc g++ make patch cmake linux-headers tzdata python2
 gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
 gem update --system
 gem install --no-document bundler
-exec_as_git bundle config mirror.https://rubygems.org https://gems.ruby-china.org
 echo "Coping assets..."
 mkdir -p ${GITLAB_BUILD_DIR}
 cp -R /data/docker-gitlab/assets/build/ ${GITLAB_BUILD_DIR}/
@@ -112,7 +111,8 @@ if [[ -d ${GEM_CACHE_DIR} ]]; then
   chown -R ${GITLAB_USER}: ${GITLAB_INSTALL_DIR}/vendor/cache
 fi
 echo "Install Gitlab ce..."
-exec_as_git bundle install -j$(nproc) --local --deployment --without development test aws kerberos
+sudo -u ${GITLAB_USER} -H bundle config mirror.https://rubygems.org https://gems.ruby-china.org
+sudo -u ${GITLAB_USER} -H bundle install -j$(nproc) --local --deployment --without development test aws kerberos
 
 # make sure everything in ${GITLAB_HOME} is owned by ${GITLAB_USER} user
 chown -R ${GITLAB_USER}: ${GITLAB_HOME}
