@@ -1,7 +1,8 @@
 #!/bin/sh
 set -e
 
-GITLAB_CLONE_URL=https://gitlab.com/gitlab-org/gitlab-ce.git
+##https://gitlab.com/gitlab-org/gitlab-ce.git
+GITLAB_CE_URL=https://gitlab.com/gitlab-org/gitlab-ce/repository/archive.tar.gz
 GITLAB_SHELL_URL=https://gitlab.com/gitlab-org/gitlab-shell/repository/archive.tar.gz
 GITLAB_WORKHORSE_URL=https://gitlab.com/gitlab-org/gitlab-workhorse/repository/archive.tar.gz
 
@@ -70,7 +71,12 @@ cd ${GITLAB_WORKHORSE_INSTALL_DIR}
 
 # shallow clone gitlab-ce
 echo "Cloning gitlab-ce v.${GITLAB_VERSION}..."
-exec_as_git git clone -q -b v${GITLAB_VERSION} --depth 1 ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}
+#exec_as_git git clone -q -b v${GITLAB_VERSION} --depth 1 ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}
+mkdir -p ${GITLAB_INSTALL_DIR}
+wget -cq ${GITLAB_CE_URL}?ref=v${GITLAB_VERSION} -O ${GITLAB_BUILD_DIR}/gitlab-${GITLAB_VERSION}.tar.gz
+tar xf ${GITLAB_BUILD_DIR}/gitlab-${GITLAB_VERSION}.tar.gz --strip 1 -C ${GITLAB_INSTALL_DIR}
+rm -rf ${GITLAB_BUILD_DIR}/gitlab-${GITLAB_VERSION}.tar.gz
+chown -R ${GITLAB_USER}: ${GITLAB_INSTALL_DIR}
 
 # remove HSTS config from the default headers, we configure it in nginx
 exec_as_git sed -i "/headers\['Strict-Transport-Security'\]/d" ${GITLAB_INSTALL_DIR}/app/controllers/application_controller.rb
