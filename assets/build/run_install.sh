@@ -35,7 +35,7 @@ gem update --system
 gem install --no-document bundler
 bundle config mirror.https://rubygems.org https://gems.ruby-china.org
 echo "Coping assets..."
-exec_as_git mkdir -p ${GITLAB_BUILD_DIR}
+mkdir -p ${GITLAB_BUILD_DIR}
 cp -R /data/docker-gitlab/assets/build/ ${GITLAB_BUILD_DIR}/
 
 
@@ -69,8 +69,8 @@ exec_as_git git config --global gc.auto 0
 
 # install gitlab-shell
 echo "Downloading gitlab-shell v.${GITLAB_SHELL_VERSION}..."
-exec_as_git mkdir -p ${GITLAB_SHELL_INSTALL_DIR}
-exec_as_git wget -cq ${GITLAB_SHELL_URL}?ref=v${GITLAB_SHELL_VERSION} -O ${GITLAB_BUILD_DIR}/gitlab-shell-${GITLAB_SHELL_VERSION}.tar.gz
+mkdir -p ${GITLAB_SHELL_INSTALL_DIR}
+wget -cq ${GITLAB_SHELL_URL}?ref=v${GITLAB_SHELL_VERSION} -O ${GITLAB_BUILD_DIR}/gitlab-shell-${GITLAB_SHELL_VERSION}.tar.gz
 tar xf ${GITLAB_BUILD_DIR}/gitlab-shell-${GITLAB_SHELL_VERSION}.tar.gz --strip 1 -C ${GITLAB_SHELL_INSTALL_DIR}
 rm -rf ${GITLAB_BUILD_DIR}/gitlab-shell-${GITLAB_SHELL_VERSION}.tar.gz
 chown -R ${GITLAB_USER}: ${GITLAB_SHELL_INSTALL_DIR}
@@ -91,7 +91,7 @@ chown -R ${GITLAB_USER}: ${GITLAB_WORKHORSE_INSTALL_DIR}
 
 echo "Installing gitlab-ce v.${GITLAB_VERSION}..."
 mkdir -p ${GITLAB_INSTALL_DIR}
-cp gitlab-ce-8-16-stable-c6c28e6f0277d27558c5615180fa4582c015fe95.tar.gz gitlab-${GITLAB_VERSION}.tar.gz
+cp ./gitlab-ce-8-16-stable-c6c28e6f0277d27558c5615180fa4582c015fe95.tar.gz ./gitlab-${GITLAB_VERSION}.tar.gz
 tar xf ${GITLAB_BUILD_DIR}/gitlab-${GITLAB_VERSION}.tar.gz --strip 1 -C ${GITLAB_INSTALL_DIR}
 rm -rf ${GITLAB_BUILD_DIR}/gitlab-${GITLAB_VERSION}.tar.gz
 chown -R ${GITLAB_USER}: ${GITLAB_INSTALL_DIR}
