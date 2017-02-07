@@ -13,7 +13,7 @@ exec_as_git() {
   if [[ $(whoami) == ${GITLAB_USER} ]]; then
     $@
   else
-    sudo -HEu ${GITLAB_USER} "$@"
+    sudo -u ${GITLAB_USER} -H "$@"
   fi
 }
 
@@ -71,7 +71,6 @@ cd ${GITLAB_WORKHORSE_INSTALL_DIR}
 
 # shallow clone gitlab-ce
 echo "Downloading gitlab-ce v.${GITLAB_VERSION}..."
-#exec_as_git git clone -q -b v${GITLAB_VERSION} --depth 1 ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}
 mkdir -p ${GITLAB_INSTALL_DIR}
 wget -cq ${GITLAB_CE_URL}?ref=v${GITLAB_VERSION} -O ${GITLAB_BUILD_DIR}/gitlab-${GITLAB_VERSION}.tar.gz
 tar xf ${GITLAB_BUILD_DIR}/gitlab-${GITLAB_VERSION}.tar.gz --strip 1 -C ${GITLAB_INSTALL_DIR}
@@ -92,7 +91,7 @@ if [[ -d ${GEM_CACHE_DIR} ]]; then
   chown -R ${GITLAB_USER}: ${GITLAB_INSTALL_DIR}/vendor/cache
 fi
 echo "Install Gitlab ce..."
-exec_as_git bundle install -j$(nproc) --local --deployment --without development test aws kerberos
+exec_as_git bundle install -j$(nproc) --deployment --without development test aws kerberos
 
 # make sure everything in ${GITLAB_HOME} is owned by ${GITLAB_USER} user
 chown -R ${GITLAB_USER}: ${GITLAB_HOME}
