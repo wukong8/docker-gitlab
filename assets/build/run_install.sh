@@ -110,7 +110,7 @@ if [[ -d ${GEM_CACHE_DIR} ]]; then
   chown -R ${GITLAB_USER}: ${GITLAB_INSTALL_DIR}/vendor/cache
 fi
 echo "Install Gitlab ce..."
-bundle install -j$(nproc) --local --deployment --without development test aws kerberos
+exec_as_git bundle install -j$(nproc) --local --deployment --without development test aws kerberos
 
 # make sure everything in ${GITLAB_HOME} is owned by ${GITLAB_USER} user
 chown -R ${GITLAB_USER}: ${GITLAB_HOME}
