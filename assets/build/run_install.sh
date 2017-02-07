@@ -112,7 +112,7 @@ if [[ -d ${GEM_CACHE_DIR} ]]; then
 fi
 echo "Install Gitlab ce..."
 sudo -u ${GITLAB_USER} -H bundle config mirror.https://rubygems.org https://gems.ruby-china.org
-sudo -u ${GITLAB_USER} -H bundle install -j$(nproc) --local --deployment --without development test aws kerberos
+sudo -u ${GITLAB_USER} -H bundle install -j$(nproc) --deployment --without development test aws kerberos
 
 # make sure everything in ${GITLAB_HOME} is owned by ${GITLAB_USER} user
 chown -R ${GITLAB_USER}: ${GITLAB_HOME}
