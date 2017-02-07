@@ -19,6 +19,11 @@ GITLAB_DATA_DIR="${GITLAB_HOME}/data"
 GITLAB_BUILD_DIR="${GITLAB_CACHE_DIR}/build"
 GITLAB_RUNTIME_DIR="${GITLAB_CACHE_DIR}/runtime"
 
+# add ${GITLAB_USER} user
+addgroup GitLab
+adduser -h ${GITLAB_HOME} -G GitLab -D ${GITLAB_USER}
+passwd -d ${GITLAB_USER}
+
 ## Execute a command as GITLAB_USER
 exec_as_git() {
   if [[ $(whoami) == ${GITLAB_USER} ]]; then
@@ -52,11 +57,6 @@ GEM_CACHE_DIR="${GITLAB_BUILD_DIR}/cache"
 
 # remove the host keys generated during openssh-server installation
 rm -rf /etc/ssh/ssh_host_*_key /etc/ssh/ssh_host_*_key.pub
-
-# add ${GITLAB_USER} user
-addgroup GitLab
-adduser -h ${GITLAB_HOME} -G GitLab -D ${GITLAB_USER}
-passwd -d ${GITLAB_USER}
 
 # set PATH (fixes cron job PATH issues)
 ###cat >> ${GITLAB_HOME}/.profile <<EOF
