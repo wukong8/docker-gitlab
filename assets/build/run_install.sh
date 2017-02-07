@@ -30,7 +30,7 @@ exec_as_git() {
 }
 
 sed -i '1i\http://mirrors.ustc.edu.cn/alpine/v3.5/main\nhttp://mirrors.ustc.edu.cn/alpine/v3.5/community' /etc/apk/repositories
-apk add --update wget curl gcc g++ make patch cmake linux-headers tzdata python2 supervisor git gettext go nodejs autoconf bison coreutils procps sudo yaml-dev gdbm-dev zlib-dev readline-dev libc-dev ncurses-dev libffi-dev libxml2-dev libxslt-dev icu-dev mysql-dev ruby-dev ruby-irb ruby-rdoc ruby-bundler ruby-bigdecimal
+apk add --update wget curl gcc g++ make patch cmake linux-headers tzdata python2 supervisor git gettext go nodejs autoconf bison coreutils procps sudo yaml-dev gdbm-dev zlib-dev readline-dev libc-dev ncurses-dev libffi-dev libxml2-dev libxslt-dev icu-dev mysql-dev postgresql-dev ruby-dev ruby-irb ruby-rdoc ruby-bundler ruby-bigdecimal
 gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
 gem update --system
 gem install --no-document bundler rdoc-data
