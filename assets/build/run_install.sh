@@ -33,7 +33,7 @@ apk add --update wget curl gcc g++ make patch cmake linux-headers tzdata python2
 gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
 gem update --system
 gem install --no-document bundler
-bundle config mirror.https://rubygems.org https://gems.ruby-china.org
+exec_as_git bundle config mirror.https://rubygems.org https://gems.ruby-china.org
 echo "Coping assets..."
 mkdir -p ${GITLAB_BUILD_DIR}
 cp -R /data/docker-gitlab/assets/build/ ${GITLAB_BUILD_DIR}/
