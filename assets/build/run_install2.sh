@@ -19,6 +19,7 @@ GITLAB_DATA_DIR="${GITLAB_HOME}/data"
 GITLAB_BUILD_DIR="${GITLAB_CACHE_DIR}/build"
 GITLAB_RUNTIME_DIR="${GITLAB_CACHE_DIR}/runtime"
 
+echo " $(whoami) == ${GITLAB_USER}"
 ## Execute a command as GITLAB_USER
 exec_as_git() {
   if [[ $(whoami) == ${GITLAB_USER} ]]; then
