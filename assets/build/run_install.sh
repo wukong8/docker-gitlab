@@ -19,14 +19,23 @@ GITLAB_DATA_DIR="${GITLAB_HOME}/data"
 GITLAB_BUILD_DIR="${GITLAB_CACHE_DIR}/build"
 GITLAB_RUNTIME_DIR="${GITLAB_CACHE_DIR}/runtime"
 
+## Execute a command as GITLAB_USER
+exec_as_git() {
+  if [[ $(whoami) == ${GITLAB_USER} ]]; then
+    $@
+  else
+    sudo -HEu ${GITLAB_USER} "$@"
+  fi
+}
+
 sed -i '1i\http://mirrors.ustc.edu.cn/alpine/v3.5/main\nhttp://mirrors.ustc.edu.cn/alpine/v3.5/community' /etc/apk/repositories
 apk add --update wget curl gcc g++ make patch cmake linux-headers tzdata python2 supervisor git gettext go nodejs autoconf bison coreutils procps sudo yaml-dev gdbm-dev zlib-dev readline-dev libc-dev ncurses-dev libffi-dev libxml2-dev libxslt-dev icu-dev mysql-dev ruby-dev ruby-irb ruby-rdoc ruby-bundler ruby-bigdecimal
 gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
 gem update --system
 gem install --no-document bundler
 bundle config mirror.https://rubygems.org https://gems.ruby-china.org
-
-mkdir -p ${GITLAB_BUILD_DIR}
+echo "Coping assets..."
+exec_as_git mkdir -p ${GITLAB_BUILD_DIR}
 cp -R /data/docker-gitlab/assets/build/ ${GITLAB_BUILD_DIR}/
 
 
@@ -36,14 +45,7 @@ GITLAB_SHELL_URL=https://gitlab.com/gitlab-org/gitlab-shell/repository/archive.t
 GITLAB_WORKHORSE_URL=https://gitlab.com/gitlab-org/gitlab-workhorse/repository/archive.tar.gz
 GEM_CACHE_DIR="${GITLAB_BUILD_DIR}/cache"
 
-## Execute a command as GITLAB_USER
-exec_as_git() {
-  if [[ $(whoami) == ${GITLAB_USER} ]]; then
-    $@
-  else
-    sudo -HEu ${GITLAB_USER} "$@"
-  fi
-}
+
 
 # https://en.wikibooks.org/wiki/Grsecurity/Application-specific_Settings#Node.js
 ###paxctl -Cm `which nodejs`
@@ -67,8 +69,8 @@ exec_as_git git config --global gc.auto 0
 
 # install gitlab-shell
 echo "Downloading gitlab-shell v.${GITLAB_SHELL_VERSION}..."
-mkdir -p ${GITLAB_SHELL_INSTALL_DIR}
-wget -cq ${GITLAB_SHELL_URL}?ref=v${GITLAB_SHELL_VERSION} -O ${GITLAB_BUILD_DIR}/gitlab-shell-${GITLAB_SHELL_VERSION}.tar.gz
+exec_as_git mkdir -p ${GITLAB_SHELL_INSTALL_DIR}
+exec_as_git wget -cq ${GITLAB_SHELL_URL}?ref=v${GITLAB_SHELL_VERSION} -O ${GITLAB_BUILD_DIR}/gitlab-shell-${GITLAB_SHELL_VERSION}.tar.gz
 tar xf ${GITLAB_BUILD_DIR}/gitlab-shell-${GITLAB_SHELL_VERSION}.tar.gz --strip 1 -C ${GITLAB_SHELL_INSTALL_DIR}
 rm -rf ${GITLAB_BUILD_DIR}/gitlab-shell-${GITLAB_SHELL_VERSION}.tar.gz
 chown -R ${GITLAB_USER}: ${GITLAB_SHELL_INSTALL_DIR}
@@ -87,19 +89,7 @@ tar xf ${GITLAB_BUILD_DIR}/gitlab-workhorse-${GITLAB_WORKHORSE_VERSION}.tar.gz -
 rm -rf ${GITLAB_BUILD_DIR}/gitlab-workhorse-${GITLAB_WORKHORSE_VERSION}.tar.gz
 chown -R ${GITLAB_USER}: ${GITLAB_WORKHORSE_INSTALL_DIR}
 
-###echo "Downloading Go ${GOLANG_VERSION}..."
-###wget -cnv https://storage.googleapis.com/golang/go${GOLANG_VERSION}.linux-amd64.tar.gz -P ${GITLAB_BUILD_DIR}/
-###tar -xf ${GITLAB_BUILD_DIR}/go${GOLANG_VERSION}.linux-amd64.tar.gz -C /tmp/
-
-cd ${GITLAB_WORKHORSE_INSTALL_DIR}
-###PATH=/tmp/go/bin:$PATH GOROOT=/tmp/go make install
-
-# remove go
-###rm -rf ${GITLAB_BUILD_DIR}/go${GOLANG_VERSION}.linux-amd64.tar.gz /tmp/go
-
-# shallow clone gitlab-ce
-
-#exec_as_git git clone -q -b v${GITLAB_VERSION} --depth 1 ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}
+echo "Installing gitlab-ce v.${GITLAB_VERSION}..."
 mkdir -p ${GITLAB_INSTALL_DIR}
 cp gitlab-ce-8-16-stable-c6c28e6f0277d27558c5615180fa4582c015fe95.tar.gz gitlab-${GITLAB_VERSION}.tar.gz
 tar xf ${GITLAB_BUILD_DIR}/gitlab-${GITLAB_VERSION}.tar.gz --strip 1 -C ${GITLAB_INSTALL_DIR}
