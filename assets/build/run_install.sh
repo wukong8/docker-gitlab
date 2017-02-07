@@ -18,6 +18,10 @@ GITLAB_WORKHORSE_INSTALL_DIR="${GITLAB_HOME}/gitlab-workhorse"
 GITLAB_DATA_DIR="${GITLAB_HOME}/data"
 GITLAB_BUILD_DIR="${GITLAB_CACHE_DIR}/build"
 GITLAB_RUNTIME_DIR="${GITLAB_CACHE_DIR}/runtime"
+GITLAB_CE_URL=https://gitlab.com/gitlab-org/gitlab-ce/repository/archive.tar.gz
+GITLAB_SHELL_URL=https://gitlab.com/gitlab-org/gitlab-shell/repository/archive.tar.gz
+GITLAB_WORKHORSE_URL=https://gitlab.com/gitlab-org/gitlab-workhorse/repository/archive.tar.gz
+GEM_CACHE_DIR="${GITLAB_BUILD_DIR}/cache"
 
 # add ${GITLAB_USER} user
 addgroup GitLab
@@ -41,14 +45,11 @@ gem update --system --no-document
 gem install --no-document bundler rdoc-data rake tzinfo
 echo "Coping assets..."
 mkdir -p ${GITLAB_BUILD_DIR}
+cd ${GITLAB_BUILD_DIR}
 cp -r /root/docker-gitlab/assets/build/ ${GITLAB_BUILD_DIR}/
 
-
 ##https://gitlab.com/gitlab-org/gitlab-ce.git
-GITLAB_CE_URL=https://gitlab.com/gitlab-org/gitlab-ce/repository/archive.tar.gz
-GITLAB_SHELL_URL=https://gitlab.com/gitlab-org/gitlab-shell/repository/archive.tar.gz
-GITLAB_WORKHORSE_URL=https://gitlab.com/gitlab-org/gitlab-workhorse/repository/archive.tar.gz
-GEM_CACHE_DIR="${GITLAB_BUILD_DIR}/cache"
+
 
 
 
