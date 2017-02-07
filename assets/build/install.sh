@@ -58,16 +58,7 @@ wget -cq ${GITLAB_WORKHORSE_URL}?ref=v${GITLAB_WORKHORSE_VERSION} -O ${GITLAB_BU
 tar xf ${GITLAB_BUILD_DIR}/gitlab-workhorse-${GITLAB_WORKHORSE_VERSION}.tar.gz --strip 1 -C ${GITLAB_WORKHORSE_INSTALL_DIR}
 rm -rf ${GITLAB_BUILD_DIR}/gitlab-workhorse-${GITLAB_WORKHORSE_VERSION}.tar.gz
 chown -R ${GITLAB_USER}: ${GITLAB_WORKHORSE_INSTALL_DIR}
-
-###echo "Downloading Go ${GOLANG_VERSION}..."
-###wget -cnv https://storage.googleapis.com/golang/go${GOLANG_VERSION}.linux-amd64.tar.gz -P ${GITLAB_BUILD_DIR}/
-###tar -xf ${GITLAB_BUILD_DIR}/go${GOLANG_VERSION}.linux-amd64.tar.gz -C /tmp/
-
 cd ${GITLAB_WORKHORSE_INSTALL_DIR}
-###PATH=/tmp/go/bin:$PATH GOROOT=/tmp/go make install
-
-# remove go
-###rm -rf ${GITLAB_BUILD_DIR}/go${GOLANG_VERSION}.linux-amd64.tar.gz /tmp/go
 
 # shallow clone gitlab-ce
 echo "Downloading gitlab-ce v.${GITLAB_VERSION}..."
