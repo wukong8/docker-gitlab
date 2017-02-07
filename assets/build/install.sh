@@ -82,6 +82,7 @@ if [[ -d ${GEM_CACHE_DIR} ]]; then
   chown -R ${GITLAB_USER}: ${GITLAB_INSTALL_DIR}/vendor/cache
 fi
 echo "Install Gitlab ce..."
+exec_as_git bundle config mirror.https://rubygems.org https://gems.ruby-china.org
 exec_as_git bundle install -j$(nproc) --deployment --without development test aws kerberos
 
 # make sure everything in ${GITLAB_HOME} is owned by ${GITLAB_USER} user
