@@ -70,7 +70,7 @@ cd ${GITLAB_WORKHORSE_INSTALL_DIR}
 ###rm -rf ${GITLAB_BUILD_DIR}/go${GOLANG_VERSION}.linux-amd64.tar.gz /tmp/go
 
 # shallow clone gitlab-ce
-echo "Cloning gitlab-ce v.${GITLAB_VERSION}..."
+echo "Downloading gitlab-ce v.${GITLAB_VERSION}..."
 #exec_as_git git clone -q -b v${GITLAB_VERSION} --depth 1 ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}
 mkdir -p ${GITLAB_INSTALL_DIR}
 wget -cq ${GITLAB_CE_URL}?ref=v${GITLAB_VERSION} -O ${GITLAB_BUILD_DIR}/gitlab-${GITLAB_VERSION}.tar.gz
