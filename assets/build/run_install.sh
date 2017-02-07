@@ -41,7 +41,7 @@ gem update --system --no-document
 gem install --no-document bundler rdoc-data rake tzinfo
 echo "Coping assets..."
 mkdir -p ${GITLAB_BUILD_DIR}
-cp -R /root/docker-gitlab/assets/build/ ${GITLAB_BUILD_DIR}/
+cp -r /root/docker-gitlab/assets/build/ ${GITLAB_BUILD_DIR}/
 
 
 ##https://gitlab.com/gitlab-org/gitlab-ce.git
@@ -339,7 +339,7 @@ EOF
 ###DEBIAN_FRONTEND=noninteractive apt-get purge -y --auto-remove ${BUILD_DEPENDENCIES}
 ###rm -rf /var/lib/apt/lists/*
 
-cp -R /root/docker-gitlab/assets/runtime/ ${GITLAB_RUNTIME_DIR}/
+cp -r /root/docker-gitlab/assets/runtime/ ${GITLAB_RUNTIME_DIR}/
 cp entrypoint.sh /sbin/entrypoint.sh
 chmod 755 /sbin/entrypoint.sh
 rm -rf /var/cache/apk/*
