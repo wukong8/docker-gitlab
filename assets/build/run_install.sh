@@ -25,6 +25,8 @@ gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
 gem update --system
 gem install --no-document bundler
 bundle config mirror.https://rubygems.org https://gems.ruby-china.org
+
+mkdir -p ${GITLAB_BUILD_DIR}
 cp -R /data/docker-gitlab/assets/build/ ${GITLAB_BUILD_DIR}/
 
 
