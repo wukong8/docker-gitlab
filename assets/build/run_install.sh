@@ -116,7 +116,7 @@ exec_as_git cp ${GITLAB_INSTALL_DIR}/config/gitlab.yml.example ${GITLAB_INSTALL_
 exec_as_git cp ${GITLAB_INSTALL_DIR}/config/database.yml.mysql ${GITLAB_INSTALL_DIR}/config/database.yml
 
 echo "Compiling assets. Please be patient, this could take a while..."
-exec_as_git bundle exec rake assets:clean assets:precompile USE_DB=false SKIP_STORAGE_VALIDATION=true >/dev/null 2>&1
+exec_as_git bundle exec rake assets:clean assets:precompile USE_DB=false SKIP_STORAGE_VALIDATION=true
 
 # remove auto generated ${GITLAB_DATA_DIR}/config/secrets.yml
 rm -rf ${GITLAB_DATA_DIR}/config/secrets.yml
