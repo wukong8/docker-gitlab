@@ -24,9 +24,9 @@ GITLAB_WORKHORSE_URL=https://gitlab.com/gitlab-org/gitlab-workhorse/repository/a
 GEM_CACHE_DIR="${GITLAB_BUILD_DIR}/cache"
 
 # add ${GITLAB_USER} user
-#addgroup GitLab
-#adduser -h ${GITLAB_HOME} -G GitLab -D ${GITLAB_USER}
-#passwd -d ${GITLAB_USER}
+addgroup GitLab
+adduser -h ${GITLAB_HOME} -G GitLab -D ${GITLAB_USER}
+passwd -d ${GITLAB_USER}
 
 ## Execute a command as GITLAB_USER
 exec_as_git() {
