@@ -100,6 +100,7 @@ cd ${GITLAB_INSTALL_DIR}
 
 # install gems, use local cache if available
 mkdir -p ${GEM_CACHE_DIR}
+gem install -i ${GEM_CACHE_DIR} --no-document rake -v '10.5.0'
 gem install -i ${GEM_CACHE_DIR} --no-document rake rdoc-data tzinfo haml_lint
 if [[ -d ${GEM_CACHE_DIR} ]]; then
   rm -rf ${GITLAB_INSTALL_DIR}/vendor/cache
