@@ -37,7 +37,7 @@ GITLAB_SHELL_URL=https://gitlab.com/gitlab-org/gitlab-shell/repository/archive.t
 GITLAB_WORKHORSE_URL=https://gitlab.com/gitlab-org/gitlab-workhorse/repository/archive.tar.gz
 GEM_CACHE_DIR="${GITLAB_BUILD_DIR}/cache"
 
-
+gem install --no-document bundler rdoc-data rake tzinfo haml_lint
 echo "Compiling assets. Please be patient, this could take a while..."
 exec_as_git bundle exec rake assets:clean assets:precompile USE_DB=false SKIP_STORAGE_VALIDATION=true
 echo "Compile ok..."
