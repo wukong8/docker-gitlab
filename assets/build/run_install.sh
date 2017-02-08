@@ -44,7 +44,7 @@ gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
 gem update --system --no-document
 gem install --no-document bundler rake
 mkdir -p ${GEM_CACHE_DIR}
-gem install -i ${GEM_CACHE_DIR} --no-document rdoc-data tzinfo rainbow haml_lint
+gem install -i ${GEM_CACHE_DIR} --no-document rake rdoc-data tzinfo rainbow haml_lint
 echo "Coping assets..."
 mkdir -p ${GITLAB_BUILD_DIR}
 cd ${GITLAB_BUILD_DIR}
@@ -102,6 +102,7 @@ cd ${GITLAB_INSTALL_DIR}
 
 # install gems, use local cache if available
 if [[ -d ${GEM_CACHE_DIR} ]]; then
+  rm -rf ${GITLAB_INSTALL_DIR}/vendor/cache
   mv ${GEM_CACHE_DIR} ${GITLAB_INSTALL_DIR}/vendor/cache
   chown -R ${GITLAB_USER}: ${GITLAB_INSTALL_DIR}/vendor/cache
 fi
