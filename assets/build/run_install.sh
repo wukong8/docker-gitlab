@@ -92,7 +92,7 @@ chown -R ${GITLAB_USER}: ${GITLAB_WORKHORSE_INSTALL_DIR}
 
 echo "Installing gitlab-ce v.${GITLAB_VERSION}..."
 mkdir -p ${GITLAB_INSTALL_DIR}
-cp ./gitlab-ce-8-16-stable-c6c28e6f0277d27558c5615180fa4582c015fe95.tar.gz ${GITLAB_BUILD_DIR}/gitlab-${GITLAB_VERSION}.tar.gz
+cp /data/gitlab-ce-8-16-stable-c6c28e6f0277d27558c5615180fa4582c015fe95.tar.gz ${GITLAB_BUILD_DIR}/gitlab-${GITLAB_VERSION}.tar.gz
 tar xf ${GITLAB_BUILD_DIR}/gitlab-${GITLAB_VERSION}.tar.gz --strip 1 -C ${GITLAB_INSTALL_DIR}
 rm -rf ${GITLAB_BUILD_DIR}/gitlab-${GITLAB_VERSION}.tar.gz
 chown -R ${GITLAB_USER}: ${GITLAB_INSTALL_DIR}
