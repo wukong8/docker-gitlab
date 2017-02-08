@@ -42,8 +42,8 @@ sed -i '1i\http://mirrors.ustc.edu.cn/alpine/v3.5/main\nhttp://mirrors.ustc.edu.
 apk add --update wget curl gcc g++ make patch cmake linux-headers tzdata python2 supervisor git gettext go nodejs autoconf bison coreutils procps sudo yaml-dev gdbm-dev zlib-dev readline-dev libc-dev ncurses-dev libffi-dev libxml2-dev libxslt-dev icu-dev mysql-dev postgresql-dev ruby-dev ruby-irb ruby-rdoc ruby-bundler ruby-bigdecimal
 gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
 gem update --system --no-document
-gem install --no-document --local bundler
-gem install -i ${GEM_CACHE_DIR} --local --no-document rake rdoc-data tzinfo rainbow haml_lint
+gem install --no-document --local bundler rake
+gem install -i ${GEM_CACHE_DIR} --local --no-document rdoc-data tzinfo rainbow haml_lint
 echo "Coping assets..."
 mkdir -p ${GITLAB_BUILD_DIR}
 cd ${GITLAB_BUILD_DIR}
