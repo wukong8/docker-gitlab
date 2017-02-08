@@ -43,7 +43,7 @@ apk add --update wget curl gcc g++ make patch cmake linux-headers tzdata python2
 gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
 gem update --system --no-document
 gem install --no-document bundler
-gem install -i ${GEM_CACHE_DIR} --no-document rake rdoc-data tzinfo haml_lint
+gem install -i ${GEM_CACHE_DIR} --no-document rake rdoc-data tzinfo rainbow haml_lint
 echo "Coping assets..."
 mkdir -p ${GITLAB_BUILD_DIR}
 cd ${GITLAB_BUILD_DIR}
