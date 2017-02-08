@@ -149,6 +149,8 @@ sed -i \
   -e "s|error_log /var/log/nginx/error.log;|error_log ${GITLAB_LOG_DIR}/nginx/error.log;|" \
   /etc/nginx/nginx.conf
 
+mkdir -p /etc/logrotate.d
+
 # configure supervisord log rotation
 cat > /etc/logrotate.d/supervisord <<EOF
 ${GITLAB_LOG_DIR}/supervisor/*.log {
@@ -201,8 +203,9 @@ ${GITLAB_LOG_DIR}/nginx/*.log {
 }
 EOF
 
+mkdir -p /etc/supervisor.d
 # configure supervisord to start unicorn
-cat > /etc/supervisor/conf.d/unicorn.conf <<EOF
+cat > /etc/supervisor.d/unicorn.conf <<EOF
 [program:unicorn]
 priority=10
 directory=${GITLAB_INSTALL_DIR}
@@ -217,7 +220,7 @@ stderr_logfile=${GITLAB_LOG_DIR}/supervisor/%(program_name)s.log
 EOF
 
 # configure supervisord to start sidekiq
-cat > /etc/supervisor/conf.d/sidekiq.conf <<EOF
+cat > /etc/supervisor.d/sidekiq.conf <<EOF
 [program:sidekiq]
 priority=10
 directory=${GITLAB_INSTALL_DIR}
@@ -236,7 +239,7 @@ stderr_logfile=${GITLAB_LOG_DIR}/supervisor/%(program_name)s.log
 EOF
 
 # configure supervisord to start gitlab-workhorse
-cat > /etc/supervisor/conf.d/gitlab-workhorse.conf <<EOF
+cat > /etc/supervisor.d/gitlab-workhorse.conf <<EOF
 [program:gitlab-workhorse]
 priority=20
 directory=${GITLAB_INSTALL_DIR}
@@ -257,7 +260,7 @@ stderr_logfile=${GITLAB_INSTALL_DIR}/log/%(program_name)s.log
 EOF
 
 # configure supervisord to start mail_room
-cat > /etc/supervisor/conf.d/mail_room.conf <<EOF
+cat > /etc/supervisor.d/mail_room.conf <<EOF
 [program:mail_room]
 priority=20
 directory=${GITLAB_INSTALL_DIR}
@@ -272,7 +275,7 @@ EOF
 
 # configure supervisor to start sshd
 mkdir -p /var/run/sshd
-cat > /etc/supervisor/conf.d/sshd.conf <<EOF
+cat > /etc/supervisor.d/sshd.conf <<EOF
 [program:sshd]
 directory=/
 command=/usr/sbin/sshd -D -E ${GITLAB_LOG_DIR}/supervisor/%(program_name)s.log
@@ -284,7 +287,7 @@ stderr_logfile=${GITLAB_LOG_DIR}/supervisor/%(program_name)s.log
 EOF
 
 # configure supervisord to start nginx
-cat > /etc/supervisor/conf.d/nginx.conf <<EOF
+cat > /etc/supervisor.d/nginx.conf <<EOF
 [program:nginx]
 priority=20
 directory=/tmp
@@ -297,7 +300,7 @@ stderr_logfile=${GITLAB_LOG_DIR}/supervisor/%(program_name)s.log
 EOF
 
 # configure supervisord to start crond
-cat > /etc/supervisor/conf.d/cron.conf <<EOF
+cat > /etc/supervisor.d/cron.conf <<EOF
 [program:cron]
 priority=20
 directory=/tmp
