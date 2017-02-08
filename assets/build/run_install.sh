@@ -42,7 +42,7 @@ sed -i '1i\http://mirrors.ustc.edu.cn/alpine/v3.5/main\nhttp://mirrors.ustc.edu.
 apk add --update wget curl gcc g++ make patch cmake linux-headers tzdata python2 supervisor git gettext go nodejs autoconf bison coreutils procps sudo yaml-dev gdbm-dev zlib-dev readline-dev libc-dev ncurses-dev libffi-dev libxml2-dev libxslt-dev icu-dev mysql-dev postgresql-dev ruby-dev ruby-irb ruby-rdoc ruby-bundler ruby-bigdecimal
 gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
 gem update --system --no-document
-gem install --no-document bundler rdoc-data rake tzinfo haml_lint
+gem install -i ${GEM_CACHE_DIR} --no-document bundler rdoc-data rake tzinfo haml_lint
 echo "Coping assets..."
 mkdir -p ${GITLAB_BUILD_DIR}
 cd ${GITLAB_BUILD_DIR}
@@ -105,7 +105,7 @@ if [[ -d ${GEM_CACHE_DIR} ]]; then
 fi
 echo "Install Gitlab ce..."
 exec_as_git bundle config mirror.https://rubygems.org https://gems.ruby-china.org
-exec_as_git bundle install -j$(nproc) --deployment --without development test aws kerberos
+exec_as_git bundle install --local -j$(nproc) --deployment --without development test aws kerberos
 
 # make sure everything in ${GITLAB_HOME} is owned by ${GITLAB_USER} user
 chown -R ${GITLAB_USER}: ${GITLAB_HOME}
