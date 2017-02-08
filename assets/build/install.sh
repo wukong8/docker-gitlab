@@ -76,6 +76,9 @@ exec_as_git sed -i 's/db:reset/db:setup/' ${GITLAB_INSTALL_DIR}/lib/tasks/gitlab
 
 cd ${GITLAB_INSTALL_DIR}
 
+mkdir -p ${GEM_CACHE_DIR}
+gem install --no-document -i ${GEM_CACHE_DIR} rdoc-data rake tzinfo haml_lint
+
 # install gems, use local cache if available
 if [[ -d ${GEM_CACHE_DIR} ]]; then
   mv ${GEM_CACHE_DIR} ${GITLAB_INSTALL_DIR}/vendor/cache
