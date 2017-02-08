@@ -24,9 +24,9 @@ GITLAB_WORKHORSE_URL=https://gitlab.com/gitlab-org/gitlab-workhorse/repository/a
 GEM_CACHE_DIR="${GITLAB_BUILD_DIR}/cache"
 
 # add ${GITLAB_USER} user
-#addgroup GitLab
-#adduser -h ${GITLAB_HOME} -G GitLab -D ${GITLAB_USER}
-#passwd -d ${GITLAB_USER}
+addgroup GitLab
+adduser -h ${GITLAB_HOME} -G GitLab -D ${GITLAB_USER}
+passwd -d ${GITLAB_USER}
 
 ## Execute a command as GITLAB_USER
 exec_as_git() {
@@ -44,8 +44,7 @@ gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
 gem update --system --no-document
 gem install --no-document bundler rake
 mkdir -p ${GEM_CACHE_DIR}
-gem install -i ${GEM_CACHE_DIR} --no-document rake -v '10.5.0'
-gem install -i ${GEM_CACHE_DIR} --no-document rdoc-data tzinfo rainbow haml_lint
+gem install -i ${GEM_CACHE_DIR} --no-document rake rdoc-data tzinfo rainbow haml_lint
 echo "Coping assets..."
 mkdir -p ${GITLAB_BUILD_DIR}
 cd ${GITLAB_BUILD_DIR}
